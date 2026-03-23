@@ -1,0 +1,9 @@
+2026-03-22 21:06:54,921 - INFO - Pipeline started
+2026-03-22 21:07:49,872 - INFO - Pipeline started
+2026-03-22 21:10:19,632 - INFO - All tables loaded successfully
+2026-03-22 21:10:19,667 - INFO - ratings: 25000095 rows
+2026-03-22 21:10:19,668 - INFO - movies: 62423 rows
+2026-03-22 21:10:19,669 - INFO - tags: 1093360 rows
+2026-03-22 21:10:19,673 - INFO - genome_scores: 15584448 rows
+2026-03-22 21:10:19,675 - INFO - genome_tags: 1128 rows
+2026-03-22 21:10:19,676 - INFO - links: 62423 rows
