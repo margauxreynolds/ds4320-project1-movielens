@@ -2,7 +2,6 @@
 
 This repository contains a fully constructed secondary dataset and analysis pipeline built on the MovieLens 25M dataset. The project studies popularity bias in movie recommendation systems, measuring how standard models favor popular films over lesser-known ones, and demonstrating a fairer evaluation approach. The dataset is structured using the relational model across six tables, stored as Parquet files, and analyzed using an SVD collaborative filtering model. All data, code, and documentation are organized here for full reproducibility.
 
----
 
 | Spec | Value |
 |:---|:---|
@@ -14,13 +13,14 @@ This repository contains a fully constructed secondary dataset and analysis pipe
 | Pipeline | [Analysis Code](pipeline/pipeline.ipynb) |
 | License | [MIT](LICENSE) |
 
---
+---
 
 ## Problem Definition
 
 **General problem:** Streaming platforms struggle to make content recommendations that feel personal and expose users to a diverse range of relevant content.
 
 **Specific problem:** Viewers receive recommendations that feel repetitive and generic rather than matched to their individual taste, often because recommendation systems prioritize widely rated or popular content, causing them to miss films they would have genuinely enjoyed.
+
 
 ### Rationale
 
@@ -104,6 +104,8 @@ The most significant judgment call was choosing the MovieLens 25M version rather
  
 The dataset consists of six tables linked by `movieId` and `tagId` as foreign keys. The `ratings` table is the central fact table joined to `movies` on `movieId`. The `tags` table links users to movies via user-generated text labels. The `genome_scores` table links movies to tags via `tagId`, defined in the `genome_tags` lookup table. The `links` table provides cross-references from MovieLens `movieId` to external IMDB and TMDB identifiers.
 
+<br>
+
 ### Data Tables
  
 | Table | Description | CSV Link | Parquet Link |
@@ -115,6 +117,9 @@ The dataset consists of six tables linked by `movieId` and `tagId` as foreign ke
 | genome_tags | Descriptive tag labels corresponding to tag IDs used in the genome scores table | [genome_tags.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQBU8yFsZiX6S4uF2qTJX4n4AaUHxJgrBhwLqNnjr80mYzc?e=MXxFDT) | [genome_tags.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQBRxZs81FrXR6Q4Ikl_CS9jAcuKHfO2ySZIAoRzu_nZ5W0?e=DEWIxk) |
 | links | MovieLens movie IDs linked to corresponding IMDB and TMDB identifiers | [links.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQBCi2A65PTfTIqL4V_lHaM2AbMLjGvoFjpA8aVhzfv_nbg?e=NAjNbR) | [links.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQAVA1nMjVYHTaYVK9t70rRkAVyl3xKv2uY3pncQVh_c71I?e=kOi6Fo) | 
  
+<br>
+<br>
+
 ### Data Dictionary
  
 | Feature | Table | Data Type | Description | Example |
@@ -130,6 +135,9 @@ The dataset consists of six tables linked by `movieId` and `tagId` as foreign ke
 | imdbId | links | int | Identifier for the movie on IMDB | 114709 |
 | tmdbId | links | int | Identifier for the movie on The Movie Database | 862 |
 | relevance | genome_scores | float | Score between 0 and 1 indicating how strongly a movie exhibits a tag property | 0.025 |
+
+<br>
+<br>
 
 ### Uncertainty Quantification
  
