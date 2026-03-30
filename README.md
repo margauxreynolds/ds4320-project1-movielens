@@ -118,7 +118,6 @@ The dataset consists of six tables linked by `movieId` and `tagId` as foreign ke
 | links | MovieLens movie IDs linked to corresponding IMDB and TMDB identifiers | [links.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQBCi2A65PTfTIqL4V_lHaM2AbMLjGvoFjpA8aVhzfv_nbg?e=NAjNbR) | [links.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQAVA1nMjVYHTaYVK9t70rRkAVyl3xKv2uY3pncQVh_c71I?e=kOi6Fo) | 
  
 <br>
-<br>
 
 ### Data Dictionary
  
