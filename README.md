@@ -96,7 +96,7 @@ The most significant judgment call was choosing the MovieLens 25M version rather
 
 ### Schema
  
-![ER Diagram](data/movielens-er-diagram.png)
+![ER Diagram](images/movielens-er-diagram.png)
  
 The dataset consists of six tables linked by `movieId` and `tagId` as foreign keys. The `movies` table is the central table, with `ratings`, `tags`, `links`, and `genome_scores` all joined to it on `movieId`. The `tags` table links users to movies via user-generated text labels. The `genome_scores` table links movies to tags via `tagId`, defined in the `genome_tags` lookup table. The `links` table provides cross-references from MovieLens `movieId` to external IMDB and TMDB identifiers.
 
