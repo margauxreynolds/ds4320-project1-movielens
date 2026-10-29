@@ -1,15 +1,13 @@
 # DS 4320 Project 1: Reducing Popularity Bias in Movie Recommendations
 
-This repository contains a fully constructed secondary dataset and analysis pipeline built on the MovieLens 25M dataset. The project studies popularity bias in movie recommendation systems, measuring how standard models favor popular films over lesser-known ones, and demonstrating a fairer evaluation approach. The dataset is structured using the relational model across six tables, stored as Parquet files, and analyzed using an SVD collaborative filtering model. All data, code, and documentation are organized here for full reproducibility.
+This repository contains a fully constructed secondary dataset and analysis pipeline built on the MovieLens 25M dataset. The project studies popularity bias in movie recommendation systems, measuring how standard models favor popular films over lesser-known ones, and testing a simple adjustment to increase long-tail recommendation share. The dataset is structured using the relational model across six tables, stored as Parquet files, and analyzed using an SVD collaborative filtering model. The repository includes the acquisition and analysis notebooks, saved outputs, and project documentation.
 
 
 | Spec | Value |
 |:---|:---|
 | Name | Margaux Reynolds |
-| NetID | tsh3ut |
 | DOI | [https://doi.org/10.5281/zenodo.19323558](https://doi.org/10.5281/zenodo.19323558) |
 | Press Release | [Beyond the Top 10](press-release.md) |
-| Data | [Link to Data](https://myuva-my.sharepoint.com/:f:/g/personal/tsh3ut_virginia_edu/IgDA9pm1MO0FTZ2dzjDRla-_AZf4-txDrfdUcu60VqIlKHw?e=0FA6AM) |
 | Pipeline | [Analysis Code](pipeline/pipeline.ipynb) |
 | License | [MIT](LICENSE) |
 
@@ -23,7 +21,7 @@ This repository contains a fully constructed secondary dataset and analysis pipe
 
 ### Rationale
 
-The general problem of content recommendation spans many platforms, content types, and user behaviors, making it too broad to address directly. Narrowing the focus to popularity bias in movie recommendations made it possible to study a concrete, measurable version of the problem using real data. The MovieLens 25M dataset, collected from the MovieLens platform, contains 25 million ratings from 162,000 users across 62,000 movies, alongside user-generated tags and a genome of relevance scores linking movies to descriptive attributes. That combination of explicit rating behavior and content-level features makes a fairness-aware recommendation approach realistic and well-supported. The specific focus on popularity bias emerged naturally from what the data revealed: a small fraction of movies account for the vast majority of all ratings, which means any model trained on this data will systematically underrepresent the rest of the catalog.
+The general problem of content recommendation spans many platforms, content types, and user behaviors, making it too broad to address directly. Narrowing the focus to popularity bias in movie recommendations made it possible to study a concrete, measurable version of the problem using real data. The MovieLens 25M dataset, collected from the MovieLens platform, contains 25 million ratings from 162,000 users across 62,000 movies, alongside user-generated tags and a genome of relevance scores linking movies to descriptive attributes. That combination of explicit rating behavior and content-level features makes a fairness-aware recommendation approach realistic and well-supported. The specific focus on popularity bias emerged naturally from what the data revealed: a small fraction of movies account for the vast majority of all ratings, which motivates examining how much exposure lesser-rated movies receive in this model.
 
 ### Motivation
 
@@ -31,7 +29,7 @@ Popularity bias in recommendation systems has real consequences for users and co
 
 ### Press Release Headline and Link
 
-[Beyond the Top 10: How Streaming Platforms Are Hiding Movies You Would Actually Love](press-release.md)
+[Beyond the Top 10: Exploring Popularity Bias in Movie Recommendations](press-release.md)
 
 ---
 
@@ -58,24 +56,24 @@ This project sits at the intersection of recommender systems research and algori
 
 | # | Title | Description | Link |
 |:--|:------|:------------|:-----|
-| 1 | Harper & Konstan (2015). The MovieLens Datasets: History and Context. *ACM TiiS.* | Introduces the MovieLens datasets, their collection methodology, and how they have been used in recommender systems research | [PDF](https://myuva-my.sharepoint.com/:b:/g/personal/tsh3ut_virginia_edu/IQCiipwxFUVQQ4BuzbMFVRt4AdhrBzFjyS2Jh_dPHolPr1A?e=b9TQ1K) |
-| 2 | Klimashevskaia et al. (2024). A Survey on Popularity Bias in Recommender Systems. *User Modeling and User-Adapted Interaction.* | Comprehensive survey covering why popularity bias emerges in collaborative filtering and how it has been measured and mitigated | [PDF](https://myuva-my.sharepoint.com/:b:/g/personal/tsh3ut_virginia_edu/IQCQxHQnwzzdS6u3UjQ0z2F4ART3EoH8BzEWBJO2tEBVD7g?e=wk6kRw) |
-| 3 | Abdollahpouri et al. (2019). The Impact of Popularity Bias on Fairness and Calibration in Recommendation. *arXiv.* | Directly uses MovieLens to show how collaborative filtering amplifies popularity bias and reduces recommendation fairness | [PDF](https://myuva-my.sharepoint.com/:b:/g/personal/tsh3ut_virginia_edu/IQD8hWGfiiwxRYMjk9beY2p8AYo5DFxNUMzQCkCbJ0Xeskk?e=gHnGjE) |
-| 4 | Abdollahpouri et al. (2019). Managing Popularity Bias in Recommender Systems with Personalized Re-ranking. *arXiv.* | Proposes a re-ranking approach to reduce popularity bias after initial recommendations are generated | [PDF](https://myuva-my.sharepoint.com/:b:/g/personal/tsh3ut_virginia_edu/IQAbpMjl8GhfRJCbLOmj-jYHASnGF3nDpEQoFeg89PIfwV0?e=gxnwsC) |
-| 5 | Carnovalini et al. (2025). Popularity Bias in Recommender Systems: The Search for Fairness in the Long Tail. *MDPI Information.* | Recent narrative review examining popularity bias from a fairness perspective, with discussion of evaluation metrics | [PDF](https://myuva-my.sharepoint.com/:b:/g/personal/tsh3ut_virginia_edu/IQBBEF-Tm-xBSqc0DCkZT7lCARp8sUODGjM1r004Tfw3VBw?e=6Shax6) |
+| 1 | Harper & Konstan (2015). The MovieLens Datasets: History and Context. *ACM TiiS.* | Introduces the MovieLens datasets, their collection methodology, and how they have been used in recommender systems research | PDF |
+| 2 | Klimashevskaia et al. (2024). A Survey on Popularity Bias in Recommender Systems. *User Modeling and User-Adapted Interaction.* | Comprehensive survey covering why popularity bias emerges in collaborative filtering and how it has been measured and mitigated | PDF |
+| 3 | Abdollahpouri et al. (2019). The Impact of Popularity Bias on Fairness and Calibration in Recommendation. *arXiv.* | Directly uses MovieLens to show how collaborative filtering amplifies popularity bias and reduces recommendation fairness | PDF |
+| 4 | Abdollahpouri et al. (2019). Managing Popularity Bias in Recommender Systems with Personalized Re-ranking. *arXiv.* | Proposes a re-ranking approach to reduce popularity bias after initial recommendations are generated | PDF |
+| 5 | Carnovalini et al. (2025). Popularity Bias in Recommender Systems: The Search for Fairness in the Long Tail. *MDPI Information.* | Recent narrative review examining popularity bias from a fairness perspective, with discussion of evaluation metrics | PDF |
 
 ---
 
 ## Data Creation
 
-The dataset was obtained from the GroupLens research lab at the University of Minnesota, which maintains and distributes the MovieLens datasets for research purposes. The MovieLens 25M dataset was downloaded directly from [grouplens.org/datasets/movielens/25m/](https://grouplens.org/datasets/movielens/25m/) as a zip file containing six CSV files: `ratings.csv`, `movies.csv`, `tags.csv`, `genome-scores.csv`, `genome-tags.csv`, and `links.csv`. No filtering or subsetting was applied at download and all files were retained in full. The dataset contains 25,000,095 ratings applied to 62,423 movies by 162,541 users, collected between January 9, 1995 and November 21, 2019. The CSV files were converted to Parquet format inside the pipeline notebook using DuckDB's `COPY TO` command for more efficient storage and query performance.
+The dataset was obtained from the GroupLens research lab at the University of Minnesota, which maintains and distributes the MovieLens datasets for research purposes. The MovieLens 25M dataset was downloaded directly from [grouplens.org/datasets/movielens/25m/](https://grouplens.org/datasets/movielens/25m/) as a zip file containing six CSV files: `ratings.csv`, `movies.csv`, `tags.csv`, `genome-scores.csv`, `genome-tags.csv`, and `links.csv`. No filtering or subsetting was applied at download and all files were retained in full. The dataset contains 25,000,095 ratings applied to 62,423 movies by 162,541 users, collected between January 9, 1995 and November 21, 2019. The CSV files were converted to Parquet format inside the data acquisition notebook using DuckDB's `COPY TO` command for more efficient storage and query performance.
 
 ### Code
 
 | File | Description | Link |
 |:---|:---|:---|
 | `pipeline/data_acquisition.ipynb` | Loads all six MovieLens CSV files into DuckDB, converts them to Parquet format, and verifies all tables loaded correctly | [pipeline/data_acquisition.ipynb](pipeline/data_acquisition.ipynb) |
-| `pipeline/pipeline.ipynb` | Runs SQL queries to classify movies by popularity, trains an SVD collaborative filtering model, measures catalog coverage bias, and produces publication-quality visualizations | [pipeline/pipeline.ipynb](pipeline/pipeline.ipynb) |
+| `pipeline/pipeline.ipynb` | Runs SQL queries to classify movies by popularity, trains an SVD collaborative filtering model, measures recommendation share by popularity group, and produces publication-quality visualizations | [pipeline/pipeline.ipynb](pipeline/pipeline.ipynb) |
 | `pipeline/pipeline.md` | Markdown export of the analysis pipeline notebook | [pipeline/pipeline.md](pipeline/pipeline.md) |
 
 ### Bias Identification
@@ -84,11 +82,11 @@ Bias could be introduced into the MovieLens data at several points. First, the d
 
 ### Bias Mitigation
 
-The primary mitigation strategy is to explicitly measure and account for popularity bias rather than ignoring it. This means tracking the distribution of ratings per movie, distinguishing between long-tail and popular items throughout analysis, and evaluating the model on catalog coverage rather than just rating accuracy. Treating all unrated movies as missing rather than as implicit negative feedback also partially mitigates selection bias by avoiding penalizing the model for not recommending movies a user simply never encountered.
+The primary mitigation strategy is to explicitly measure and account for popularity bias rather than ignoring it. This means tracking the distribution of ratings per movie, distinguishing between long-tail and popular items throughout analysis, and evaluating recommendation share by popularity group alongside rating prediction error. Treating all unrated movies as missing rather than as implicit negative feedback also partially mitigates selection bias by avoiding penalizing the model for not recommending movies a user simply never encountered.
 
 ### Rationale for Critical Decisions
 
-The most significant judgment call was choosing the MovieLens 25M version rather than the smaller 1M or 10M versions. The 25M dataset provides enough rating density to meaningfully measure popularity bias across the full long tail. Smaller versions compress the distribution and make the bias harder to observe. A second judgment call was defining the threshold between long-tail and popular movies at 500 ratings, a commonly used cutoff in the popularity bias literature that is ultimately arbitrary and directly affects how many movies are classified as long-tail. This threshold should be treated as a tunable parameter rather than a fixed boundary. Finally, retaining all six files without filtering preserves the full distribution needed to study the bias accurately, at the cost of including movies with very few ratings that add noise to the analysis.
+The most significant judgment call was choosing the MovieLens 25M version rather than the smaller 1M or 10M versions. The 25M dataset provides enough rating density to meaningfully measure popularity bias across the full long tail. Using this version allows the analysis to include a broad range of rating counts. A second judgment call was defining the threshold between long-tail and popular movies at 500 ratings, a commonly used cutoff in the popularity bias literature that is ultimately arbitrary and directly affects how many movies are classified as long-tail. This threshold should be treated as a tunable parameter rather than a fixed boundary. Finally, retaining all six files without filtering preserves the full distribution needed to study the bias accurately, at the cost of including movies with very few ratings that add noise to the analysis.
 
 ---
 
@@ -106,12 +104,12 @@ The dataset consists of six tables linked by `movieId` and `tagId` as foreign ke
  
 | Table | Description | CSV Link | Parquet Link |
 |:---|:---|:---|:---|
-| ratings | 25 million user ratings on a 5-star scale with half-star increments, one row per user-movie pair | [ratings.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQD7VChdg4cGQZFaMhUykKGQAXIm46ety09rCG-3PtAt4Bk?e=1Jowjz) | [ratings.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQBFHfpz5petRZaFlAkQ7SfhAYFJ37hGwtQekkK2IW9xMzU?e=jsxdbC) |
-| movies | Metadata for 62,423 movies including title with release year and pipe-separated genres |  [movies.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQCBMUPmMmx7RYSTt6bU9jCnAbNuWbHEpaicMdqBeUAil0s?e=Kh3IpW) |[movies.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQCbrrJ7FEtbTa94CIJ-RlrGAXkZlbT8D0LGajRGSTCyaaU?e=nR1Kwn) |
-| tags | User-generated text tags applied to movies, one row per user-movie-tag combination | [tags.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQAXDlp5VeI5RqX8ab8e5Q7wARVc5C1XxrsLKXG7rkZUhCw?e=0puT5v) | [tags.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQDxF3kysUG-R72K97hrCtxHAXpltSlm85f_7-qwpPXvRuE?e=2DEVjd) |
-| genome_scores | Tag relevance scores computed for every movie-tag combination | [genome_scores.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQCuNAbzsSNoS5l9U8nC-oUYAewYKvEx_tfJKVhNP_8Ibso?e=CITsYZ) | [genome_scores.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQA6iuA76LihQ6C3TptZU3rXARz9_3giauabeZLmfuGt1No?e=4eAFZK) |
-| genome_tags | Descriptive tag labels corresponding to tag IDs used in the genome scores table | [genome_tags.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQBU8yFsZiX6S4uF2qTJX4n4AaUHxJgrBhwLqNnjr80mYzc?e=MXxFDT) | [genome_tags.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQBRxZs81FrXR6Q4Ikl_CS9jAcuKHfO2ySZIAoRzu_nZ5W0?e=DEWIxk) |
-| links | MovieLens movie IDs linked to corresponding IMDB and TMDB identifiers | [links.csv](https://myuva-my.sharepoint.com/:x:/g/personal/tsh3ut_virginia_edu/IQBCi2A65PTfTIqL4V_lHaM2AbMLjGvoFjpA8aVhzfv_nbg?e=NAjNbR) | [links.parquet](https://myuva-my.sharepoint.com/:u:/g/personal/tsh3ut_virginia_edu/IQAVA1nMjVYHTaYVK9t70rRkAVyl3xKv2uY3pncQVh_c71I?e=kOi6Fo) | 
+| ratings | 25 million user ratings on a 5-star scale with half-star increments, one row per user-movie pair | ratings.csv | ratings.parquet |
+| movies | Metadata for 62,423 movies including title with release year and pipe-separated genres |  movies.csv |movies.parquet |
+| tags | User-generated text tags applied to movies, one row per user-movie-tag combination | tags.csv | tags.parquet |
+| genome_scores | Tag relevance scores computed for every movie-tag combination | genome_scores.csv | genome_scores.parquet |
+| genome_tags | Descriptive tag labels corresponding to tag IDs used in the genome scores table | genome_tags.csv | genome_tags.parquet |
+| links | MovieLens movie IDs linked to corresponding IMDB and TMDB identifiers | links.csv | links.parquet | 
  
 <br>
 
@@ -141,3 +139,13 @@ Comprehensive uncertainty metrics for analytically relevant numerical features. 
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | rating | ratings | 3.53 | 1.06 | 0.5 | 5.0 | 3.5 | Subjective human judgments. Only users with 20+ ratings are included, truncating low-engagement users. The same user may rate the same movie differently at different times. |
 | relevance | genome_scores | 0.12 | 0.15 | 0.0 | 1.0 | 0.06 | Computed by a machine learning algorithm trained on user-contributed content. Scores near 0.5 are ambiguous and inherit subjectivity from both tag and rating data. |
+
+## Running the notebooks
+
+Install Python dependencies: `duckdb`, `pandas`, `numpy`, `matplotlib`, `scikit-surprise`, and `jupyter`. Download MovieLens 25M from the GroupLens link above and extract its CSV files into `data/ml-25m/` in this repository. Run `pipeline/data_acquisition.ipynb` first, then `pipeline/pipeline.ipynb`, from the repository root or the `pipeline` directory. Parquet files are written to `data/ml-25m-parquet/` and charts to `images/`.
+
+The saved outputs are from the original run. The setup changes have not yet been verified by a full rerun.
+
+## Evaluation limits
+
+The recommendation comparison covers 500 users from a sample of the 5,000 most active users. It measures recommendation-slot share, not unique-item catalog coverage or user satisfaction. The 6,155,371 sampled ratings are split 80/20 before model training. Movies without ratings are excluded from the catalog comparison. A future evaluation should test ranking relevance alongside long-tail exposure.
