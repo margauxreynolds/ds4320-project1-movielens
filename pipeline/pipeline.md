@@ -1,17 +1,19 @@
 # Popularity Bias in Movie Recommendations Pipeline
 
-This notebook solves the specific problem defined in this project: viewers receive repetitive, generic recommendations because recommendation systems prioritize widely rated content over films that match individual taste. 
+This notebook examines how often an SVD recommendation model recommends popular versus lesser-rated movies and tests a simple long-tail re-ranking adjustment. 
 
 Pipeline Steps:
 1. Load all six MovieLens 25M Parquet files into DuckDB
 2. Query the data to classify movies as long-tail or popular and measure the scale of the imbalance
 3. Visualize the popularity distribution in the raw data
-4. Train an SVD collaborative filtering model on a sample of 5,000 users and evaluate it on catalog coverage
+4. Train an SVD collaborative filtering model on a sample of 5,000 users and evaluate its recommendation share by popularity group
 5. Visualize how the model's recommendations compare to the actual catalog distribution
 6. Apply a long-tail re-ranking boost and compare the adjusted recommendation distribution to the original
 
 
 ```python
+from pathlib import Path
+
 # Imports
 import duckdb
 import pandas as pd
@@ -32,11 +34,14 @@ logging.basicConfig(
 )
 logging.info('Pipeline started')
 
-# Path to Parquet files in UVA OneDrive — created by data_acquisition.ipynb
-PARQUET_PATH = '/Users/margauxreynolds/Library/CloudStorage/OneDrive-UniversityofVirginia/ds4320-project1/ml-25m-parquet/'
+# Run from the repository root or the pipeline directory.
+PROJECT_ROOT = Path.cwd().parent if Path.cwd().name == 'pipeline' else Path.cwd()
+PARQUET_PATH = str(PROJECT_ROOT / 'data' / 'ml-25m-parquet') + '/'
 
 print('Setup complete.')
 logging.info('Setup complete')
+IMAGE_PATH = PROJECT_ROOT / 'images'
+IMAGE_PATH.mkdir(parents=True, exist_ok=True)
 ```
 
     Setup complete.
@@ -202,7 +207,7 @@ fig.suptitle('Most Movies Are Barely Rated\nMovieLens 25M Dataset — 62,000 Mov
 
 fig.patch.set_facecolor('white')
 plt.tight_layout()
-plt.savefig('../images/popularity_distribution.png', dpi=150, bbox_inches='tight', facecolor='white')
+plt.savefig(IMAGE_PATH / 'popularity_distribution.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.show()
 
 print('Figure saved as popularity_distribution.png')
@@ -222,7 +227,7 @@ logging.info('Popularity distribution chart saved')
 
 SVD (Singular Value Decomposition) is used here because it is the standard matrix factorization approach for collaborative filtering and the method used across the popularity bias readings this project is based on. SVD and PCA share the same mathematical foundation, they both decompose a matrix to find the directions of greatest variation in the data. Where PCA finds principal components of a feature matrix, SVD applied to the user-item rating matrix uncovers hidden preference patterns across users and movies.
 
-Rather than evaluating the model on rating accuracy alone, this pipeline evaluates it on catalog coverage, meaning what share of the full catalog it actually recommends, which directly measures popularity bias. Training is limited to the 5,000 most active users to keep runtime manageable while preserving the rating distribution. An 80/20 train/test split follows standard machine learning practice.
+This pipeline evaluates rating prediction error and the share of recommendation slots assigned to each popularity group. This is different from catalog coverage, which counts distinct recommended movies. Ratings from the 5,000 most active users are split 80/20 for training and testing; this sample is not representative of all users.
 
 
 ```python
@@ -410,7 +415,7 @@ ax.text(0.5, 0.5, '55.6 percentage point gap\nin long-tail recommendations',
 
 fig.patch.set_facecolor('white')
 plt.tight_layout()
-plt.savefig('../images/bias_in_recommendations.png', dpi=150, bbox_inches='tight', facecolor='white')
+plt.savefig(IMAGE_PATH / 'bias_in_recommendations.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.show()
 
 print('Figure saved as bias_in_recommendations.png')
@@ -511,7 +516,7 @@ ax.spines['right'].set_visible(False)
 
 fig.patch.set_facecolor('white')
 plt.tight_layout()
-plt.savefig('../images/reranked_recommendations.png', dpi=150, bbox_inches='tight', facecolor='white')
+plt.savefig(IMAGE_PATH / 'reranked_recommendations.png', dpi=150, bbox_inches='tight', facecolor='white')
 plt.show()
 print('Figure saved as reranked_recommendations.png')
 logging.info('Re-ranking visualization saved')
@@ -528,9 +533,10 @@ logging.info('Re-ranking visualization saved')
 
 ## Findings
 
-The SVD model was trained on 6,155,371 ratings from 5,000 users covering 56,774 unique movies. The model achieved an RMSE of 0.73 on the held-out test set, meaning predictions are off by less than one star on average.
+The selected sample contained 6,155,371 ratings from 5,000 users covering 56,774 unique movies. The SVD model was trained on 80% of these ratings and achieved a root mean squared error (RMSE) of 0.7306 on the held-out 20%.
 
-The key finding is in the recommendation breakdown. Popular movies make up only 9.1% of the full catalog but received 64.7% of the model's recommendations. Long-tail movies make up 90.9% of the catalog but received only 35.3% of recommendations. This 55.6 percentage point gap shows that the model's recommendations do not reflect the actual distribution of the catalog, they are heavily skewed toward whatever is already popular. This directly refers to the problem: viewers are not receiving recommendations matched to their individual taste, they are receiving a popularity-weighted subset of the catalog.
+The key finding is in the recommendation breakdown. Popular movies make up only 9.1% of the catalog of movies with at least one rating but received 64.7% of the model's recommendations. Long-tail movies make up 90.9% of the catalog but received only 35.3% of recommendations. This 55.6 percentage point gap shows that the model's recommendations do not reflect the actual distribution of the catalog, they are heavily skewed toward whatever is already popular. This shows that popular movies receive a larger share of recommendation slots than their share of the rated-movie catalog. It does not establish whether the recommendations match users' tastes.
 
-After applying the re-ranking boost of 0.2 to long-tail predicted ratings, the share of long-tail movies in recommendations increased from 35.3% to 75.9%. Popular movies dropped from 64.7% to 24.1%. The gap between catalog share and recommendation share for long-tail movies shrank from 55.6 percentage points to 15. This shows that a simple post-processing step can meaningfully reduce popularity bias without retraining the model, though some tradeoff in popular movie coverage is expected.
+After applying the re-ranking boost of 0.2 to long-tail predicted ratings, the share of long-tail movies in recommendations increased from 35.3% to 75.9%. Popular movies dropped from 64.7% to 24.1%. The gap between catalog share and recommendation share for long-tail movies shrank from 55.6 percentage points to 15. This shows that a simple post-processing step can increase long-tail exposure without retraining the model. The experiment does not measure the effect on ranking relevance or user satisfaction.
 
+The recommendation comparison uses the first 500 users in the selected data, rather than a random sample. Candidates exclude all movies each user rated in that sample, including held-out ratings, so this is an exposure comparison rather than a held-out ranking evaluation. Popularity labels use the full dataset, and some candidate movies are absent from training. The reported percentages describe recommendation slots, not unique movies.
