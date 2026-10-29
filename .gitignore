@@ -1,2 +1,4 @@
 *.log
 README.pdf
+data/
+.ipynb_checkpoints/
